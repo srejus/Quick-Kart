@@ -11,6 +11,7 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const routers_1 = __importDefault(require("./routers"));
 const app = (0, express_1.default)();
 dotenv_1.default.config();
 app.use((0, cors_1.default)({
@@ -27,3 +28,4 @@ mongoose_1.default.Promise = Promise;
 const DB_URL = process.env.DB_URL ? process.env.DB_URL : "";
 mongoose_1.default.connect(DB_URL);
 mongoose_1.default.connection.on('error', (error) => console.log("Error on DB Connection"));
+app.use("/", routers_1.default);
