@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import routers from './routers';
 
 const app = express();
 dotenv.config();
@@ -29,3 +30,5 @@ const DB_URL:string = process.env.DB_URL ? process.env.DB_URL : "";
 mongoose.connect(DB_URL);
 
 mongoose.connection.on('error', (error: Error) => console.log("Error on DB Connection"));
+
+app.use("/",routers);
