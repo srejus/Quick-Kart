@@ -28,4 +28,4 @@ mongoose_1.default.Promise = Promise;
 const DB_URL = process.env.DB_URL ? process.env.DB_URL : "";
 mongoose_1.default.connect(DB_URL);
 mongoose_1.default.connection.on('error', (error) => console.log("Error on DB Connection"));
-app.use("/", routers_1.default);
+app.use("/", (0, routers_1.default)());

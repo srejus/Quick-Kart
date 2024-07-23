@@ -31,4 +31,4 @@ mongoose.connect(DB_URL);
 
 mongoose.connection.on('error', (error: Error) => console.log("Error on DB Connection"));
 
-app.use("/",routers);
+app.use("/",routers());
