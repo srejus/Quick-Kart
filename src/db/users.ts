@@ -21,3 +21,5 @@ export const getUserBySessionToken = (sessionToken:string) => UserModel.findOne(
 
 export const createUser = (values:Record<string,any>) => new UserModel(values)
     .save().then((user) => user.toObject());
+
+export const updateUser = (id:string,values:Record<string,any>) => UserModel.findByIdAndUpdate(id,values);

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.listAllUsersAPI = void 0;
+exports.updateUserApi = exports.listAllUsersAPI = void 0;
 const users_1 = require("../db/users");
 const listAllUsersAPI = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -21,3 +21,16 @@ const listAllUsersAPI = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.listAllUsersAPI = listAllUsersAPI;
+// get sessionToken to update current user without accepting id
+const updateUserApi = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const data = req.body;
+        const user = yield (0, users_1.updateUser)(id, data);
+        return res.status(200).json({ message: "User Updated!" });
+    }
+    catch (error) {
+        return res.status(400).json(error);
+    }
+});
+exports.updateUserApi = updateUserApi;
