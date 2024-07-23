@@ -44,12 +44,14 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!email || !password) {
             return res.status(400).json({ error: "'email' and 'password' are required" });
         }
-        const user = yield (0, users_1.getUserByEmail)(email);
+        const user = yield (0, users_1.getUserByEmail)(email).select('+authentication.salt +authentication.password');
         if (!user) {
             return res.status(400).json({ error: "Invalid email!" });
         }
         const expectedHsh = (0, helpers_1.authentication)(user.authentication.salt, password);
-        if (expectedHsh !== user.authentication.password) {
+        console.log(expectedHsh);
+        console.log(user);
+        if (user.authentication.password !== expectedHsh) {
             return res.status(403).json("Invalid user!");
         }
         const salt = (0, helpers_1.random)();

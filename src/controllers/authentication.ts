@@ -37,12 +37,14 @@ export const login = async(req:express.Request, res: express.Response) => {
         if(!email || !password) {
             return res.status(400).json({error:"'email' and 'password' are required"});
         }
-        const user = await getUserByEmail(email);
+        const user = await getUserByEmail(email).select('+authentication.salt +authentication.password');
         if(!user) {
             return res.status(400).json({error:"Invalid email!"});
         }
         const expectedHsh = authentication(user.authentication.salt,password);
-        if(expectedHsh !== user.authentication.password) {
+        console.log(expectedHsh);
+        console.log(user);
+        if(user.authentication.password !== expectedHsh) {
             return res.status(403).json("Invalid user!");
         }
 
