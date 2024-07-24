@@ -30,11 +30,10 @@ exports.getUserCartApi = getUserCartApi;
 const addCartApi = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
-        if (!req.body.quantity || !req.body.product) {
-            return res.status(400).json({ error: "'quantity' and 'product' are required" });
-        }
         const sessionToken = req.cookies['APP-AUTH'];
         const user = yield (0, users_1.getUserBySessionToken)(sessionToken);
+        const existingObject = yield (0, cart_1.getCartItemByProduct)(req.body.product, user._id);
+        console.log(existingObject);
         if (!user) {
             return res.status(400).json({ error: "Invalid User" });
         }

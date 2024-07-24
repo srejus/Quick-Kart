@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { addCart, getCart,CartItem } from '../db/cart';
+import { addCart, getCart,CartItem,getCartItemByProduct } from '../db/cart';
 import { getUserBySessionToken } from '../db/users';
 
 export const getUserCartApi = async(req:express.Request, res:express.Response) => {
@@ -20,11 +20,10 @@ export const getUserCartApi = async(req:express.Request, res:express.Response) =
 export const addCartApi = async(req:express.Request, res:express.Response) => {
     try{
         const data:CartItem[] = req.body;
-        if(!req.body.quantity || !req.body.product) {
-            return res.status(400).json({error:"'quantity' and 'product' are required"});
-        }
         const sessionToken = req.cookies['APP-AUTH'];
         const user:any = await getUserBySessionToken(sessionToken);
+        const existingObject = await getCartItemByProduct(req.body.product,user._id);
+        console.log(existingObject);
         if(!user) {
             return res.status(400).json({error:"Invalid User"});
         }
