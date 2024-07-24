@@ -34,25 +34,20 @@ const addCartApi = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const user = yield (0, users_1.getUserBySessionToken)(sessionToken);
         for (let item of data) {
             const quantity = item.quantity;
-            console.log(quantity);
             const product = item.product;
             const existingObject = yield (0, cart_1.getCartItemByProduct)(product, user._id);
-            console.log(existingObject.length === 0 && quantity !== 0);
             item['user'] = user._id;
             if (existingObject.length !== 0 && quantity !== 0) {
-                console.log("Updated the Cart!");
                 for (const obj of existingObject) {
                     const updatedCart = yield (0, cart_1.updateCart)(obj._id, item);
                 }
             }
             else if (existingObject.length !== 0 && quantity === 0) {
                 for (const obj of existingObject) {
-                    console.log('deleting the object!');
                     const deletedCart = yield (0, cart_1.deleteCart)(obj._id);
                 }
             }
             else if (existingObject.length === 0 && quantity !== 0) {
-                console.log('Adding New Object!');
                 const newCart = yield (0, cart_1.createCart)(item);
             }
         }
