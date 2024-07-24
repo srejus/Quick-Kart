@@ -10,3 +10,10 @@ export const CartModel = mongoose.model("Cart",cartSchema);
 
 export const getCart = (userId:string) => CartModel.find({user:userId});
 export const addCart = (values:Record<string,any>) => CartModel.insertMany(values);
+
+
+export interface CartItem {
+    product:string,
+    quantity:number,
+    user:string
+}

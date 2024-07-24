@@ -30,7 +30,16 @@ exports.getUserCartApi = getUserCartApi;
 const addCartApi = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
-        const cart = (0, cart_1.addCart)(data);
+        if (!req.body.quantity || !req.body.product) {
+            return res.status(400).json({ error: "'quantity' and 'product' are required" });
+        }
+        const sessionToken = req.cookies['APP-AUTH'];
+        const user = yield (0, users_1.getUserBySessionToken)(sessionToken);
+        if (!user) {
+            return res.status(400).json({ error: "Invalid User" });
+        }
+        const cartItems = data.map(item => (Object.assign(Object.assign({}, item), { user: user })));
+        const cart = (0, cart_1.addCart)(cartItems);
         return res.status(201).json({ message: "Cart objects created!" });
     }
     catch (error) {
